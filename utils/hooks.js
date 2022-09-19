@@ -1,5 +1,11 @@
 const request = require("./request");
 
+/**
+ * @description: Query picked Product Stock by store
+ * @param {string} productIds 
+ * @param {string} storeId R484 默认深圳益田假日
+ * @return {*}
+ */
 async function useQueryPickProducts(productIds, storeId = 'R484') {
     if(!(productIds && productIds.length > 0 )) return Promise.reject(null)
     let products = {};
@@ -39,6 +45,14 @@ async function useQueryPickProducts(productIds, storeId = 'R484') {
 }
 
 
+/**
+ * @description: Repeat Hook
+ * @param {function} action
+ * @param {number} gap
+ * @param {number} count
+ * @param {string} timer 
+ * @return {*}
+ */
 async function useRepeat(action, gap = 5 * 1000, count = 1, timer){
     let isStop = false;
     if(!action) return Promise.reject(null);
@@ -59,6 +73,12 @@ async function useRepeat(action, gap = 5 * 1000, count = 1, timer){
     }
 }
 
+/**
+ * @description: 
+ * @param {string} key 方糖 SendKey
+ * @param {string} msg 
+ * @return {*}
+ */
 async function useWxNotify(key, msg){
     let url = `https://sctapi.ftqq.com/${key}.send?title=${msg}`
     if(key && msg){

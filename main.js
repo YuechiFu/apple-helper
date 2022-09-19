@@ -1,6 +1,6 @@
 const {useQueryPickProducts, useRepeat, useWxNotify} = require("./utils/hooks");
 const log = require('./utils/log')
-const {PRODUCTS, NOTIFY_USERS} = require('./config');
+const {PRODUCTS, QUERY_GAP} = require('./config');
 
 
 function notifyAvailProds(products){
@@ -27,4 +27,4 @@ useRepeat(async (stop, count) => {
         log('error', err.toString())
     }
     return Promise.resolve();
-}, 3000)
+}, QUERY_GAP)
