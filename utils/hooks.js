@@ -29,7 +29,6 @@ async function useQueryPickProducts(productIds, storeId = 'R484') {
                 })
             }
         }
-
         return Promise.resolve(avaliableProducts);
         
     }catch(err){
@@ -46,20 +45,39 @@ async function useRepeat(action, gap = 5 * 1000, count = 1, timer){
     try {
         await action(() => {isStop = true}, count);
         count++;
-    }catch(err){
-        console.log(err)
-    }
-    timer && clearTimeout(timer);
-    timer = null;
-    if(!isStop){
-        const TT = setTimeout(() => { useRepeat(action, gap, count, TT) }, gap);
+   
+        timer && clearTimeout(timer);
+        timer = null;
+        if(!isStop){
+            const TT = setTimeout(() => { useRepeat(action, gap, count, TT) }, gap);
+            return Promise.resolve(count);
+        }
         return Promise.resolve(count);
+    }catch(err){
+        console.log(err);
+        return Promise.reject(err);
     }
-    return Promise.resolve(count);
 }
+
+async function useWxNotify(key, msg){
+    let url = `https://sctapi.ftqq.com/${key}.send?title=${msg}`
+    if(key && msg){
+        try{
+            await request({
+                method : 'get',
+                url
+            })
+        }catch(err){
+            console.log('error',err);
+        }
+        return Promise.resolve();
+    }
+}
+
 
 
 module.exports = {
     useQueryPickProducts,
-    useRepeat
+    useRepeat,
+    useWxNotify
 }
